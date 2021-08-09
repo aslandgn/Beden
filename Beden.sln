@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Object", "Entity\Object.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{2EB752FE-CDB5-4F09-A2A0-C1DB87B6737B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{6AD56E61-BAF3-48B2-8BDC-C2073D18212A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{6AD56E61-BAF3-48B2-8BDC-C2073D18212A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUi", "TestUi\TestUi.csproj", "{C3814505-0096-4A70-BECF-56147D8693D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUi", "TestUi\TestUi.csproj", "{C3814505-0096-4A70-BECF-56147D8693D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrdGrpcService", "PrdGrpcService\PrdGrpcService.csproj", "{D19EB2E7-448E-44B6-9E0B-6F56E9BA29EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrdGrpcService", "PrdGrpcService\PrdGrpcService.csproj", "{D19EB2E7-448E-44B6-9E0B-6F56E9BA29EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcGreeterClient", "GrpcGreeterClient\GrpcGreeterClient.csproj", "{28DAD23D-9EA6-4B02-9F78-627CEBC2CE91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcGreeterClient", "GrpcGreeterClient\GrpcGreeterClient.csproj", "{28DAD23D-9EA6-4B02-9F78-627CEBC2CE91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

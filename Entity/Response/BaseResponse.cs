@@ -7,7 +7,6 @@ namespace Object.Response
         public T? Data { get; set; }
         public bool IsSuccess { get; set; }
         public DateTime ResponseTime { get; set; }
-
         public Exception? Exception { get; set; }
 
         public BaseResponse(T data)

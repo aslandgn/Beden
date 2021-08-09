@@ -2,8 +2,6 @@ using Business.Interface;
 using Greet;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 

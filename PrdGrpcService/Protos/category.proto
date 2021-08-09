@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";  
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+option csharp_namespace = "PrdGrpcService";
+
+package category;
+
+service CategoryOpr {
+	rpc CreateCategory (CategoryCreateRequest) returns (CategoryCreateResponse) {
+		option (google.api.http) = {
+			post: "v1/Category/CreateCategory"
+		};
+	};
+	rpc GetFilteredCategories (CategoryListRequest) returns (CategoryListResponse) {
+		option (google.api.http) = {
+			post :  "v1/Category/GetFilteredCategories"
+		};
+	}
+}
+
+message CategoryCreateRequest {
+	string Name = 1;
+	string ParentCategoryId = 2;
+}
+message CategoryCreateResponse {
+    optional Category Data = 1;
+    bool IsSuccess = 2;
+    google.protobuf.Timestamp ResponseTime = 3;
+}
+message CategoryListRequest {
+	string Name = 1;
+}
+message CategoryListResponse {
+    repeated Category Data = 1;
+    bool IsSuccess = 2;
+    google.protobuf.Timestamp ResponseTime = 3;
+}
+message Category {
+    string Guid = 1;
+    string Name = 2;
+    optional string ParentCategoryGuid = 3;
+    bool Status = 4;
+    bool IsDeleted = 5;
+}
+message Exception {
+    optional string StackTrace = 1;
+    optional string Source = 2;
+    string Message = 3;
+    int32 HResult = 4;
+}
