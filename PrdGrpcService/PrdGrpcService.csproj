@@ -7,10 +7,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Protobuf Include="..\Proto\greet.proto" GrpcServices="Server" Link="Protos\greet.proto" />
-		<Protobuf Include="..\Proto\category.proto" GrpcServices="Server" Link="Protos\category.proto" />
+	  <None Remove="Protos\product.proto" />
+	</ItemGroup>
 
-		<PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
+	<ItemGroup>
+		<Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\category.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\exception.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\product.proto" GrpcServices="Server" />
+
+
+				<PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
 		<PackageReference Include="Grpc.Tools" Version="2.38.1">
 			<PrivateAssets>all</PrivateAssets>
@@ -23,10 +30,13 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Serilog" Version="2.10.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Business\Business.csproj" />
+	  <ProjectReference Include="..\PrdBusiness\PrdBusiness.csproj" />
 	</ItemGroup>
 
 

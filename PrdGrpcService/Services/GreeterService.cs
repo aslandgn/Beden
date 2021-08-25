@@ -1,4 +1,4 @@
-using Business.Interface;
+using PrdBusiness.Interface;
 using Greet;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
@@ -23,7 +23,7 @@ namespace PrdGrpcService
             {
                 Message = "Hello " + request.Name
             };
-            var serviceResp = await _categoryService.GetFilteredCategoriesAsync(new Object.Request.CategoryListRequest { });
+            var serviceResp = await _categoryService.GetFilteredCategoriesAsync(new PrdObject.Request.CategoryListRequest { });
             var data = serviceResp.Data.FirstOrDefault();
             response.Message = data.Guid + data.Name;
             return response;

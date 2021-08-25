@@ -1,4 +1,4 @@
-using Business.Injections;
+using PrdBusiness.Injections;
 using DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +29,7 @@ namespace TestUi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestUi", Version = "v1" });
             });
             services.AddDbContext<PrdContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-            BusinessInjection.Initialize(services);
+            PrdBusinessInjection.Initialize(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

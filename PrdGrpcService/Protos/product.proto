@@ -6,46 +6,48 @@ import "google/protobuf/timestamp.proto";
 import "Protos/exception.proto";
 option csharp_namespace = "PrdGrpcService.Protos";
 
-package category;
+package product;
 
-service CategoryOpr {
-	rpc CreateCategory (CategoryCreateRequest) returns (CategoryCreateResponse) {
+service ProductOpr {
+	rpc CreateProduct (ProductCreateRequest) returns (ProductCreateResponse) {
 		option (google.api.http) = {
-            post: "/v1/CreateCategory"
+            post: "/v1/CreateProduct"
             body: "*"
 		};
 	};
-	rpc GetFilteredCategories (CategoryListRequest) returns (CategoryListResponse) {
+	rpc GetFilteredProducts (ProductListRequest) returns (ProductListResponse) {
 		option (google.api.http) = {
-            post: "/v1/GetFilteredCategories"
+            post: "/v1/GetFilteredProducts"
             body: "*"
 		};
 	}
 }
 
-message CategoryCreateRequest {
+message ProductCreateRequest {
 	string Name = 1;
-	string ParentCategoryId = 2;
+    string CategoryGuId = 2;
+    string SizeTypeGuId = 3;
 }
-message CategoryCreateResponse {
-    optional Category Data = 1;
+message ProductCreateResponse {
+    optional Product Data = 1;
     bool IsSuccess = 2;
     google.protobuf.Timestamp ResponseTime = 3;
     Exception Exception = 4;
 }
-message CategoryListRequest {
+message ProductListRequest {
 	string Name = 1;
 }
-message CategoryListResponse {
-    repeated Category Data = 1;
+message ProductListResponse {
+    repeated Product Data = 1;
     bool IsSuccess = 2;
     google.protobuf.Timestamp ResponseTime = 3;
     Exception Exception = 4;
 }
-message Category {
+message Product {
     string Guid = 1;
     string Name = 2;
-    optional string ParentCategoryGuid = 3;
-    bool Status = 4;
-    bool IsDeleted = 5;
+    string CategoryGuId = 3;
+    string SizeTypeGuId = 4;
+    bool Status = 5;
+    bool IsDeleted = 6;
 }

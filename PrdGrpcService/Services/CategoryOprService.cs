@@ -1,18 +1,19 @@
-using Business.Interface;
+using PrdBusiness.Interface;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using PrdGrpcService.Protos;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PrdGrpcService
+namespace PrdGrpcService.Services
 {
     public class CategoryOprService : CategoryOpr.CategoryOprBase
     {
         private readonly ICategoryService _categoryService;
-        private readonly ILogger<GreeterService> _logger;
-        public CategoryOprService(ILogger<GreeterService> logger, ICategoryService categoryService)
+        private readonly ILogger<CategoryOprService> _logger;
+        public CategoryOprService(ILogger<CategoryOprService> logger, ICategoryService categoryService)
         {
             _logger = logger;
             _categoryService = categoryService;
@@ -20,7 +21,7 @@ namespace PrdGrpcService
 
         public override async Task<CategoryCreateResponse> CreateCategory(CategoryCreateRequest request, ServerCallContext context)
         {
-            var serviceResp = await _categoryService.CreateCategory(new Object.Request.CategoryCreateRequest
+            var serviceResp = await _categoryService.CreateCategory(new PrdObject.Request.CategoryCreateRequest
             {
                 Name = request.Name,
                 ParentCategoryId = new Guid(request.ParentCategoryId)
@@ -47,7 +48,7 @@ namespace PrdGrpcService
             CategoryListResponse response;
             try
             {
-                var serviceResponse = await _categoryService.GetFilteredCategoriesAsync(new Object.Request.CategoryListRequest { Name = request.Name });
+                var serviceResponse = await _categoryService.GetFilteredCategoriesAsync(new PrdObject.Request.CategoryListRequest { Name = request.Name });
                 if (serviceResponse.IsSuccess)
                 {
 
@@ -79,13 +80,7 @@ namespace PrdGrpcService
                 {
                     IsSuccess = false,
                     ResponseTime = Timestamp.FromDateTime(DateTime.Now.ToUniversalTime()),
-                    Exception = new Exception
-                    {
-                        HResult = e.HResult,
-                        Message = e.Message,
-                        Source = e.Source,
-                        StackTrace = e.StackTrace
-                    }
+                    
                 };
             }
             return response;

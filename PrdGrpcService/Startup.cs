@@ -1,13 +1,13 @@
-﻿using Business.Injections;
-using DataAccess;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using PrdBusiness.Injections;
+using PrdDataAccess;
+using PrdGrpcService.Services;
 
 namespace PrdGrpcService
 {
@@ -23,7 +23,7 @@ namespace PrdGrpcService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PrdContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-            BusinessInjection.Initialize(services);
+            PrdBusinessInjection.Initialize(services);
             services.AddGrpcHttpApi();
 
             services.AddSwaggerGen(c =>
@@ -53,6 +53,7 @@ namespace PrdGrpcService
             {
                 endpoints.MapGrpcService<GreeterService>();
                 endpoints.MapGrpcService<CategoryOprService>();
+                endpoints.MapGrpcService<ProductOprService>();
 
                 //endpoints.MapGet("/", async context =>
                 //{
