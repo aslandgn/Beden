@@ -4,10 +4,15 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<UserSecretsId>e4a6c1e7-0d09-4eee-a8b7-2e0c01acfe19</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Optimize>false</Optimize>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Protos\product.proto" />
+		<None Remove="Protos\product.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -17,7 +22,7 @@
 		<Protobuf Include="Protos\product.proto" GrpcServices="Server" />
 
 
-				<PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
 		<PackageReference Include="Grpc.Tools" Version="2.38.1">
 			<PrivateAssets>all</PrivateAssets>
@@ -36,8 +41,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\PrdBusiness\PrdBusiness.csproj" />
+		<ProjectReference Include="..\PrdBusiness\PrdBusiness.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="Protos\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
+	<ItemGroup>
+		<Content Include="Protos\*" CopyToPublishDirectory="PreserveNewest" />
+	</ItemGroup>
 
 </Project>

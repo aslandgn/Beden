@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PrdBusiness.Injections;
 using PrdDataAccess;
 using PrdGrpcService.Services;
+using System.IO;
 
 namespace PrdGrpcService
 {
@@ -22,6 +25,7 @@ namespace PrdGrpcService
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDirectoryBrowser();
             services.AddDbContext<PrdContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
             PrdBusinessInjection.Initialize(services);
             services.AddGrpcHttpApi();
@@ -47,6 +51,22 @@ namespace PrdGrpcService
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "gRPC HTTP API Example V1");
+            });
+
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings.Clear();
+            provider.Mappings[".proto"] = "text/plain";
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Protos")),
+                RequestPath = "/protos",
+                ContentTypeProvider = provider
+
+            });
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Protos")),
+                RequestPath = "/protos"
             });
 
             app.UseEndpoints(endpoints =>
