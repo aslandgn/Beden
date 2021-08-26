@@ -8,6 +8,7 @@ namespace SzDataAccess
     public class SzContext : DbContext
     {
         public SzContext() { }
+        public SzContext(DbContextOptions<SzContext> options) : base(options) { }
 
         public DbSet<Size> Sizes { get; set; }
         public DbSet<SizeType> SizeTypes { get; set; }

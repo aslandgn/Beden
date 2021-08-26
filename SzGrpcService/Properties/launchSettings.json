@@ -1,18 +1,30 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/SzGrpcService"
+    },
+    "iisExpress": {
+      "applicationUrl": "https://localhost:5100/"
+    }
+  },
   "profiles": {
     "SzGrpcService": {
       "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:5100/swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "http://localhost:5000;https://localhost:5001"
+      "applicationUrl": "https://localhost:5100"
     },
     "Docker": {
       "commandName": "Docker",
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": false
     }
   }
 }
