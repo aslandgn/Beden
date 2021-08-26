@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PrdBusiness.Interface;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace PrdGrpcService.Services
@@ -38,7 +39,7 @@ namespace PrdGrpcService.Services
                 IsSuccess = serviceResp.IsSuccess,
                 ResponseTime = Timestamp.FromDateTime(serviceResp.ResponseTime)
             };
-            _logger.LogInformation("CreateCategory ---- request => {request} ---- response => {response}", request, response);
+            _logger.LogInformation("{methodName} ---- request => {request} ---- response => {response}", MethodBase.GetCurrentMethod().Name, request, response);
             return response;
         }
 
@@ -70,7 +71,7 @@ namespace PrdGrpcService.Services
                 {
                     throw serviceResponse.Exception;
                 }
-                _logger.LogInformation("GetFilteredCategories ---- request => {request} ---- response => {response}", request, response);
+                _logger.LogInformation("{methodName} ---- request => {request} ---- response => {response}", MethodBase.GetCurrentMethod().Name, request, response);
 
             }
             catch (System.Exception e)
@@ -79,8 +80,9 @@ namespace PrdGrpcService.Services
                 {
                     IsSuccess = false,
                     ResponseTime = Timestamp.FromDateTime(DateTime.Now.ToUniversalTime()),
-                    
+                    Exception = new Exception { HResult = e.HResult, Message = e.Message, Source = e.Source, StackTrace = e.StackTrace }
                 };
+                _logger.LogError(e, "{methodName} ---- request => {request} ---- error => {error}", MethodBase.GetCurrentMethod().Name, request, e.Message);
             }
             return response;
         }
