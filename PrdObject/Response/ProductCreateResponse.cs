@@ -1,4 +1,5 @@
-﻿using PrdObject.Entity;
+﻿using CommonObject.Response;
+using PrdObject.Entity;
 using System;
 
 namespace PrdObject.Response

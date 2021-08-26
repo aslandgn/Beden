@@ -41,6 +41,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\PrdBusiness\PrdBusiness.csproj" />
+		<ProjectReference Include="..\ServiceExtensions\ServiceExtensions.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="Protos\*">

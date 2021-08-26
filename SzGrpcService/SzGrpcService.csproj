@@ -24,6 +24,9 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
 	  <PackageReference Include="Grpc.AspNetCore.Server" Version="2.39.0" />
+	  <PackageReference Include="Mapster" Version="7.2.0" />
+	  <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
+	  <PackageReference Include="Mapster.EFCore" Version="5.1.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Grpc.HttpApi" Version="0.1.0-alpha.20305.2" />
 	  <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.1.0-alpha.20305.2" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9">

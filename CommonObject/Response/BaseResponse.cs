@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PrdObject.Response
+namespace CommonObject.Response
 {
     public class BaseResponse<T>
     {

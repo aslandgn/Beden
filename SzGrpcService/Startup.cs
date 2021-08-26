@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.IO;
 using SzBusiness.Injections;
+using SzGrpcService.Mappings;
 
 namespace SzGrpcService
 {
@@ -24,7 +25,10 @@ namespace SzGrpcService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDirectoryBrowser();
+            
             SzBusinessInjections.Initialize(services, Configuration);
+            SzMapper.Initialize();
+
             services.AddGrpcHttpApi();
 
             services.AddSwaggerGen(c =>
@@ -69,6 +73,7 @@ namespace SzGrpcService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<SizeService>();
+                endpoints.MapGrpcService<SizeTypeService>();
 
                 endpoints.MapGet("/", async context =>
                 {

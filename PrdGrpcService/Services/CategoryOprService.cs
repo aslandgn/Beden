@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using PrdBusiness.Interface;
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace PrdGrpcService.Services
@@ -39,7 +38,7 @@ namespace PrdGrpcService.Services
                 IsSuccess = serviceResp.IsSuccess,
                 ResponseTime = Timestamp.FromDateTime(serviceResp.ResponseTime)
             };
-            _logger.LogInformation("{methodName} ---- request => {request} ---- response => {response}", MethodBase.GetCurrentMethod().Name, request, response);
+            _logger.LogInformation("request => {request} \n response => {response}", request, response);
             return response;
         }
 
@@ -71,7 +70,7 @@ namespace PrdGrpcService.Services
                 {
                     throw serviceResponse.Exception;
                 }
-                _logger.LogInformation("{methodName} ---- request => {request} ---- response => {response}", MethodBase.GetCurrentMethod().Name, request, response);
+                _logger.LogInformation("request => {request} \n response => {response}", request, response);
 
             }
             catch (System.Exception e)
@@ -82,7 +81,7 @@ namespace PrdGrpcService.Services
                     ResponseTime = Timestamp.FromDateTime(DateTime.Now.ToUniversalTime()),
                     Exception = new Exception { HResult = e.HResult, Message = e.Message, Source = e.Source, StackTrace = e.StackTrace }
                 };
-                _logger.LogError(e, "{methodName} ---- request => {request} ---- error => {error}", MethodBase.GetCurrentMethod().Name, request, e.Message);
+                _logger.LogError(e, "request => {request} \n error => {error}", request, e.Message);
             }
             return response;
         }

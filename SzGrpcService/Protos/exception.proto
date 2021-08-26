@@ -3,6 +3,8 @@ syntax = "proto3";
 option csharp_namespace = "SzGrpcService";
 
 message Exception {
+    optional string StackTrace = 1;
+    optional string Source = 2;
     string Message = 3;
     int32 HResult = 4;
 }
