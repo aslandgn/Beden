@@ -31,7 +31,7 @@ namespace SzGrpcService
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<SizeService>();
 
                 endpoints.MapGet("/", async context =>
                 {
