@@ -4,20 +4,20 @@ import "Protos/google/api/annotations.proto";
 import "google/protobuf/duration.proto";  
 import "google/protobuf/timestamp.proto";
 import "Protos/exception.proto";
-option csharp_namespace = "PrdGrpcService.Protos";
+option csharp_namespace = "PrdGrpcService";
 
 package product;
 
 service ProductOpr {
 	rpc CreateProduct (ProductCreateRequest) returns (ProductCreateResponse) {
 		option (google.api.http) = {
-            post: "/v1/CreateProduct"
+            post: "/product/CreateProduct"
             body: "*"
 		};
 	};
 	rpc GetFilteredProducts (ProductListRequest) returns (ProductListResponse) {
 		option (google.api.http) = {
-            post: "/v1/GetFilteredProducts"
+            post: "/product/GetFilteredProducts"
             body: "*"
 		};
 	}

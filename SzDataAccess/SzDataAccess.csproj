@@ -1,7 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\SzObject\SzObject.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
+  </ItemGroup>
 
 </Project>

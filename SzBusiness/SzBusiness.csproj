@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SzDataAccess\SzDataAccess.csproj" />
+    <ProjectReference Include="..\SzObject\SzObject.csproj" />
+  </ItemGroup>
+
+</Project>

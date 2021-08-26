@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PrdBusiness.Injections;
-using PrdDataAccess;
 using PrdGrpcService.Services;
 using System.IO;
 
@@ -26,8 +25,7 @@ namespace PrdGrpcService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDirectoryBrowser();
-            services.AddDbContext<PrdContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-            PrdBusinessInjection.Initialize(services);
+            PrdBusinessInjection.Initialize(services, Configuration);
             services.AddGrpcHttpApi();
 
             services.AddSwaggerGen(c =>
@@ -75,10 +73,11 @@ namespace PrdGrpcService
                 endpoints.MapGrpcService<CategoryOprService>();
                 endpoints.MapGrpcService<ProductOprService>();
 
-                //endpoints.MapGet("/", async context =>
-                //{
-                //    await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
-                //});
+                endpoints.MapGet("/", async context =>
+                {
+                    context.Response.Redirect("/swagger");
+                    await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+                });
             });
         }
     }

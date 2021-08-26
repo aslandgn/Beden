@@ -4,20 +4,20 @@ import "Protos/google/api/annotations.proto";
 import "google/protobuf/duration.proto";  
 import "google/protobuf/timestamp.proto";
 import "Protos/exception.proto";
-option csharp_namespace = "PrdGrpcService.Protos";
+option csharp_namespace = "PrdGrpcService";
 
 package category;
 
 service CategoryOpr {
 	rpc CreateCategory (CategoryCreateRequest) returns (CategoryCreateResponse) {
 		option (google.api.http) = {
-            post: "/v1/CreateCategory"
+            post: "/Category/CreateCategory"
             body: "*"
 		};
 	};
 	rpc GetFilteredCategories (CategoryListRequest) returns (CategoryListResponse) {
 		option (google.api.http) = {
-            post: "/v1/GetFilteredCategories"
+            post: "/Category/GetFilteredCategories"
             body: "*"
 		};
 	}

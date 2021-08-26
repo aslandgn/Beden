@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "Protos/google/api/annotations.proto";
+import "google/protobuf/duration.proto";  
+import "google/protobuf/timestamp.proto";
+import "Protos/exception.proto";
+
+option csharp_namespace = "SzGrpcService";
+
+package size;
+
+service SizeTypeOpr {
+	rpc CreateSizeType (CreateSizeTypeRequest) returns (CreateSizeTypeResponse) {
+		option (google.api.http) = {
+            post: "/SizeType/CreateSizeType"
+            body: "*"
+		};
+	};
+}
+
+message CreateSizeTypeRequest {
+	string Name = 1;
+}
+
+message CreateSizeTypeResponse {
+    optional SizeType Data = 1;
+    bool IsSuccess = 2;
+    google.protobuf.Timestamp ResponseTime = 3;
+    Exception Exception = 4;
+}
+
+message SizeType {
+    string Guid = 1;
+    string Name = 2;
+    bool Status = 3;
+    bool IsDeleted = 4;
+}

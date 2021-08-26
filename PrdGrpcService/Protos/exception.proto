@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "PrdGrpcService.Protos";
+option csharp_namespace = "PrdGrpcService";
 
 message Exception {
     optional string StackTrace = 1;

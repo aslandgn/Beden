@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PrdGrpcService.Downloads
+namespace SzGrpcService.Services
 {
-    public class test
+    public class SizeService: SizeOpr.SizeOprBase
     {
     }
 }

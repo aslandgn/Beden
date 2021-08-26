@@ -1,8 +1,7 @@
-﻿using PrdBusiness.Interface;
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using PrdGrpcService.Protos;
+using PrdBusiness.Interface;
 using System;
 using System.Linq;
 using System.Reflection;
