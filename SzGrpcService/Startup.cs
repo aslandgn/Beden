@@ -12,8 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ServiceExtensions;
 using System.IO;
-using System.Reflection;
 using SzBusiness.Injections;
+using SzGrpcService.Mappings;
 
 namespace SzGrpcService
 {
@@ -23,34 +23,38 @@ namespace SzGrpcService
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public Startup(IConfiguration configuration)
         {
+            //_register = register;
             Configuration = configuration;
         }
         public IConfiguration Configuration { get; }
+        //public IRegister _register { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            //logging
             services.Configure<KestrelServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
             });
 
+            //browsing protobufs on browser
             services.AddDirectoryBrowser();
-            
-            SzBusinessInjections.Initialize(services, Configuration);
 
+            //swagger
             services.AddGrpcHttpApi();
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "gRPC HTTP Sz API", Version = "v1" });
             });
             services.AddGrpcSwagger();
 
+            //automapper
             var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
-            // scans the assembly and gets the IRegister, adding the registration to the TypeAdapterConfig
-            typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
-            // register the mapper as Singleton service for my application
+            SzMapper.Register(typeAdapterConfig);
             var mapperConfig = new Mapper(typeAdapterConfig);
+
+            // dependencyInjection
             services.AddSingleton<IMapper>(mapperConfig);
+            SzBusinessInjections.Initialize(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
