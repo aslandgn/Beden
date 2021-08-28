@@ -7,5 +7,6 @@ namespace SzBusiness.Interface
     public interface ISizeTypeService
     {
         Task<SizeTypeCreateResponse> CreateSizeTypeAsync(SizeTypeCreateRequest request);
+        Task<SizeTypeListResponse> GetActiveSizeTypes();
     }
 }

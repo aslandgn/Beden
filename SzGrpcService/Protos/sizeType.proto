@@ -3,6 +3,7 @@ syntax = "proto3";
 import "Protos/google/api/annotations.proto";
 import "google/protobuf/duration.proto";  
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 import "Protos/exception.proto";
 
 option csharp_namespace = "SzGrpcService";
@@ -16,6 +17,13 @@ service SizeTypeOpr {
             body: "*"
 		};
 	};
+
+    rpc GetActiveSizeTypes(google.protobuf.Empty) returns (GetActiveSizeTypesResponse) {
+        option (google.api.http) = {
+            post: "/SizeType/GetActiveSizeTypes"
+            body: "*"
+        };
+    };
 }
 
 message CreateSizeTypeRequest {
@@ -24,6 +32,12 @@ message CreateSizeTypeRequest {
 
 message CreateSizeTypeResponse {
     optional SizeType Data = 1;
+    bool IsSuccess = 2;
+    google.protobuf.Timestamp ResponseTime = 3;
+    Exception Exception = 4;
+}
+message GetActiveSizeTypesResponse {
+    repeated SizeType Data = 1;
     bool IsSuccess = 2;
     google.protobuf.Timestamp ResponseTime = 3;
     Exception Exception = 4;

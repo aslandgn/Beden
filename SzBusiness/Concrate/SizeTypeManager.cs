@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using SzBusiness.Interface;
 using SzDataAccess.Interface;
@@ -20,7 +21,7 @@ namespace SzBusiness.Concrate
             SizeTypeCreateResponse createResponse;
             try
             {
-                var sizeType = new SizeType { };
+                var sizeType = new SizeType(request.Name);
                 var serviceResponse = await _sizeTypeDal.AddAsync(sizeType);
                 createResponse = new SizeTypeCreateResponse(serviceResponse);
             }
@@ -29,6 +30,21 @@ namespace SzBusiness.Concrate
                 createResponse = new SizeTypeCreateResponse(e);
             }
             return createResponse;
+        }
+
+        public async Task<SizeTypeListResponse> GetActiveSizeTypes()
+        {
+            SizeTypeListResponse sizeTypeListResponse;
+            try
+            {
+                var serviceResponse = await _sizeTypeDal.GetListWithQueryAsync(x => x.Status && !x.IsDeleted);
+                sizeTypeListResponse = new SizeTypeListResponse(serviceResponse.ToList());
+            }
+            catch (Exception e)
+            {
+                sizeTypeListResponse = new SizeTypeListResponse(e);
+            }
+            return sizeTypeListResponse;
         }
     }
 }

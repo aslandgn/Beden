@@ -23,20 +23,20 @@ namespace PrdGrpcService.Services
             var serviceResp = await _categoryService.CreateCategory(new PrdObject.Request.CategoryCreateRequest
             {
                 Name = request.Name,
-                ParentCategoryId = new Guid(request.ParentCategoryId)
+                ParentCategoryId = string.IsNullOrWhiteSpace(request.ParentCategoryId) ? null : new Guid(request.ParentCategoryId)
             });
             var response = new CategoryCreateResponse
             {
                 Data = new Category
                 {
-                    Guid = serviceResp.Data.Guid.ToString(),
-                    Name = serviceResp.Data.Name,
-                    ParentCategoryGuid = serviceResp.Data.ParentCategoryGuid.ToString(),
+                    Guid = serviceResp.Data.Guid.ToString() ?? null,
+                    Name = serviceResp.Data.Name ?? null,
+                    ParentCategoryGuid = serviceResp.Data.ParentCategoryGuid.ToString() ?? null,
                     Status = serviceResp.Data.Status,
                     IsDeleted = serviceResp.Data.IsDeleted
                 },
                 IsSuccess = serviceResp.IsSuccess,
-                ResponseTime = Timestamp.FromDateTime(serviceResp.ResponseTime)
+                ResponseTime = Timestamp.FromDateTime(serviceResp.ResponseTime.ToUniversalTime())
             };
             _logger.LogInformation("request => {request} \n response => {response}", request, response);
             return response;

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Mapster;
+using MapsterMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.IO;
+using System.Reflection;
 using SzBusiness.Injections;
 using SzGrpcService.Mappings;
 
@@ -27,7 +30,6 @@ namespace SzGrpcService
             services.AddDirectoryBrowser();
             
             SzBusinessInjections.Initialize(services, Configuration);
-            SzMapper.Initialize();
 
             services.AddGrpcHttpApi();
 
@@ -36,6 +38,13 @@ namespace SzGrpcService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "gRPC HTTP Sz API", Version = "v1" });
             });
             services.AddGrpcSwagger();
+
+            var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+            // scans the assembly and gets the IRegister, adding the registration to the TypeAdapterConfig
+            typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
+            // register the mapper as Singleton service for my application
+            var mapperConfig = new Mapper(typeAdapterConfig);
+            services.AddSingleton<IMapper>(mapperConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
