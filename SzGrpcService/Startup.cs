@@ -3,16 +3,17 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using ServiceExtensions;
 using System.IO;
 using System.Reflection;
 using SzBusiness.Injections;
-using SzGrpcService.Mappings;
 
 namespace SzGrpcService
 {
@@ -27,6 +28,11 @@ namespace SzGrpcService
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
             services.AddDirectoryBrowser();
             
             SzBusinessInjections.Initialize(services, Configuration);
@@ -62,6 +68,8 @@ namespace SzGrpcService
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "gRPC HTTP Sz API V1");
             });
+
+            app.UseMiddleware<LogMiddleware>();
 
             var provider = new FileExtensionContentTypeProvider();
             provider.Mappings.Clear();
