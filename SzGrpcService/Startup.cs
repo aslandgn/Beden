@@ -67,6 +67,7 @@ namespace SzGrpcService
 
             app.UseRouting();
 
+            //swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -75,6 +76,7 @@ namespace SzGrpcService
 
             app.UseMiddleware<LogMiddleware>();
 
+            //browsing protobufs on browser
             var provider = new FileExtensionContentTypeProvider();
             provider.Mappings.Clear();
             provider.Mappings[".proto"] = "text/plain";
@@ -93,6 +95,7 @@ namespace SzGrpcService
 
             app.UseEndpoints(endpoints =>
             {
+                //grpcServices
                 endpoints.MapGrpcService<SizeService>();
                 endpoints.MapGrpcService<SizeTypeService>();
 

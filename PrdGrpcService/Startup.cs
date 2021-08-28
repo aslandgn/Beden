@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Mapster;
+using MapsterMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +11,9 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PrdBusiness.Injections;
+using PrdGrpcService.Mappings;
 using PrdGrpcService.Services;
+using ServiceExtensions;
 using System.IO;
 
 namespace PrdGrpcService
@@ -24,15 +29,31 @@ namespace PrdGrpcService
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDirectoryBrowser();
-            PrdBusinessInjection.Initialize(services, Configuration);
-            services.AddGrpcHttpApi();
+            //logging
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
 
+            //browsing protobufs on browser
+            services.AddDirectoryBrowser();
+
+            //swagger
+            services.AddGrpcHttpApi();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "gRPC HTTP API Example", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "gRPC HTTP Sz API", Version = "v1" });
             });
             services.AddGrpcSwagger();
+
+            //automapper
+            var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+            PrdMapper.Register(typeAdapterConfig);
+            var mapperConfig = new Mapper(typeAdapterConfig);
+
+            // dependencyInjection
+            services.AddSingleton<IMapper>(mapperConfig);
+            PrdBusinessInjection.Initialize(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,12 +66,17 @@ namespace PrdGrpcService
 
             app.UseRouting();
 
+            //swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "gRPC HTTP API Example V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "gRPC HTTP Sz API V1");
             });
 
+            //logging
+            app.UseMiddleware<LogMiddleware>();
+
+            //browsing protobufs on browser
             var provider = new FileExtensionContentTypeProvider();
             provider.Mappings.Clear();
             provider.Mappings[".proto"] = "text/plain";
@@ -69,9 +95,9 @@ namespace PrdGrpcService
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
-                endpoints.MapGrpcService<CategoryOprService>();
+                //grpcServices
                 endpoints.MapGrpcService<ProductOprService>();
+                endpoints.MapGrpcService<CategoryOprService>();
 
                 endpoints.MapGet("/", async context =>
                 {
